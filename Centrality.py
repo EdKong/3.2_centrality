@@ -52,19 +52,32 @@ def runCentral(inputFile, outputFile):
             # append dummy names to the list of interactions
             interactions.append(['geneA', 'geneB'])
             for r in range(0, 2):
+
                 # Extract DIP name from each gene
                 gene = reg.findall(row[r])[0]
 
                 # Add the gene to the interactions list
                 interactions[i][r] = gene
 
-                # Add gene to dictionary if not already added
-                if gene not in gene_degree:
-                    # add the gene to dictionary and give it 1 connection
-                    gene_degree[gene] = 1
+                # only proceed if the interaction is not the same gene with itself
+                if reg.findall(row[0])[0] != reg.findall(row[1])[0]:
+                    # Add gene to dictionary if not already added
+                    if gene not in gene_degree:
+                        # add the gene to dictionary and give it 1 connection
+                        gene_degree[gene] = 1
+                    else:
+                        # if gene exists in dictionary, increment num of connections -
+                        gene_degree[gene] += 1
+                # if the interaction is the same gene with itself, add to dictionary but with 0
                 else:
-                    # if gene exists in dictionary, increment num of connections
-                    gene_degree[gene] += 1
+                    # Add gene to dictionary if not already added
+                    if gene not in gene_degree:
+                        # add the gene to dictionary and give it 0 connections
+                        gene_degree[gene] = 0
+                    else:
+                        # if gene exists in dictionary, do nothing
+                        pass
+
     # n := total number of genes
     n = len(gene_degree)
 
@@ -125,7 +138,6 @@ def runCentral(inputFile, outputFile):
         # loop through geneset, which gives keys for both degree and betweenness dictionaries
         for key in geneset:
             writer.writerow([key, gene_degree[key], gene_betweenness[key]])
-
 
 # Run the centrality algorithm
 runCentral(args.input, args.output)
