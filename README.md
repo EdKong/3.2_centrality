@@ -7,3 +7,5 @@ Example:    python Centrality.py -i exampleMITAB.txt -o centrality_out.csv
 
 Note:       Outputs a csv. with normalized centrality and betweenness for each gene as columns
 (Genes identified by their DIP identifiers in each case)
+
+For more about the MI TAB 2.5 file format, see [here](https://code.google.com/archive/p/psimi/wikis/PsimiTabFormat.wiki)
